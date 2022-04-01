@@ -8,8 +8,11 @@ var frame = 0
 var gameFrame = 0
 var animationFrame = 3
 var fps = 8
+var i = 0
 var jump = false
+var hit = false
 const gravity = 0.3
+
 class Chad {
     constructor() {
         this.width = 150
@@ -32,7 +35,12 @@ class Chad {
         else {
             this.vy = 0;
             jump = false
-
+            fps = 8
+            chad.image.src = chad.vx ? '3 Cyborg/Cyborg_run.png' : '3 Cyborg/Cyborg_idle.png'
+            if (hit) {
+                chad.image.src = chad.vx ? '3 Cyborg/Cyborg_run_attack.png' : '3 Cyborg/Cyborg_attack1.png'
+                animationFrame = 5
+            }
         }
         this.draw()
         this.x += this.vx
@@ -46,6 +54,12 @@ function animate() {
     gameFrame++
     c.clearRect(0, 0, canvas.width, canvas.height)
     chad.update()
+    if (hit && frame == animationFrame - 1) {
+        console.log('last hit frame')
+        chad.image.src = chad.vx ? '3 Cyborg/Cyborg_run.png' : '3 Cyborg/Cyborg_idle.png'
+        hit = false
+        animationFrame = chad.vx ? 5 : 3
+    }
     requestAnimationFrame(animate)
     if (gameFrame % fps == 0) {
         if (frame < animationFrame) frame++
@@ -59,7 +73,12 @@ addEventListener('keydown', (e) => {
         case 'd':
             chad.image.src = '3 Cyborg/Cyborg_run.png'
             animationFrame = 5
-            chad.vx = 5
+            chad.vx = 4.5
+            break
+        case 'f':
+            animationFrame = 5
+            frame = 0
+            hit = true
             break
         case 'a':
             chad.x = 0
@@ -68,6 +87,10 @@ addEventListener('keydown', (e) => {
             if (!jump) {
                 chad.vy = -10
             }
+            chad.image.src = '3 Cyborg/Cyborg_jump.png'
+            animationFrame = 3
+            gameFrame = 0
+            fps = 19
             jump = true
             break
     }
