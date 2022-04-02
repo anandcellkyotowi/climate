@@ -89,8 +89,8 @@ addEventListener('keydown', (e) => {
             }
             chad.image.src = '3 Cyborg/Cyborg_jump.png'
             animationFrame = 3
-            gameFrame = 0
-            fps = 19
+            frame = 0
+            fps = 23
             jump = true
             break
     }
